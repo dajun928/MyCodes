@@ -1,6 +1,5 @@
 # coding:utf-8
 
-
 def bubble_sort(alist):
     """
     冒泡排序
