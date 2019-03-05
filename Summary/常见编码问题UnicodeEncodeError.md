@@ -1,0 +1,78 @@
+# 常见编码问题UnicodeEncodeError
+
+文章来源：**UnicodeEncodeError**
+
+[python](https://link.jianshu.com/?t=http://lib.csdn.net/base/python) 里面的编码和解码也就是 unicode 和 str 这两种形式的相互转化。编码是 unicode -> str，相反的，解码就是 str -> unicode。剩下的问题就是确定何时需要进行编码或者解码了.关于文件开头的"编码指示"，也就是 # -*- coding: -*- 这个语句。Python 默认脚本文件都是 UTF-8 编码的，当文件中有非 UTF-8 编码范围内的字符的时候就要使用"编码指示"来修正. 关于 sys.defaultencoding，这个在解码没有明确指明解码方式的时候使用。
+比如我有如下代码：
+
+```
+ #! /usr/bin/env python
+ # -*- coding: utf-8 -*- 
+ s = '中文'  # 注意这里的 str 是 str 类型的，而不是 unicode
+ s.encode('gb18030') 
+ #这句代码将 s 重新编码为 gb18030 的格式，即进行 unicode -> str 的转换。
+```
+
+因为 s 本身就是 str 类型的，因此 Python 会自动的先将 s 解码为 unicode ，然后再编码成 gb18030。因为解码是python自动进行的，我们没有指明解码方式，python 就会使用 sys.defaultencoding 指明的方式来解码。很多情况下 sys.defaultencoding 是 ANSCII，如果 s 不是这个类型就会出错。拿上面的情况来说，我的 sys.defaultencoding 是 anscii，而 s 的编码方式和文件的编码方式一致，是 utf8 的，所以出错了:
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xe4 in position 0: ordinal not in range(128)
+
+对于这种情况，我们有两种方法来改正错误： 一是明确的指示出 s 的编码方式
+
+```
+#! /usr/bin/env python 
+# -*- coding: utf-8 -*- 
+
+s = '中文' 
+s.decode('utf-8').encode('gb18030') 
+```
+
+二是更改 sys.defaultencoding 为文件的编码方式
+
+```
+#! /usr/bin/env python 
+# -*- coding: utf-8 -*- 
+
+import sys 
+reload(sys) # Python2.5 初始化后会删除 sys.setdefaultencoding 这个方法，我们需要重新载入 
+sys.setdefaultencoding('utf-8') 
+
+str = '中文' 
+str.encode('gb18030')
+```
+
+看完之后,改成这样
+print "<p>addr:", form["addr"].value.decode('gb2312').encode('utf-8')
+成功通过.
+
+我总结一下为什么要这么写的原因:
+
+1. 当取回来的数据与你当前脚本中声明的编码不一致时就要做编码转换
+
+2.在编码转换时首先要将该数据以自身编码的格式换成unicode码,再将这个unicode按utf8编码
+
+3.为什么我的浏览器会传回gb2312的编码数据到服务器,这应该和客户端的系统编码有关系
+
+我爬虫时的错误：
+
+```
+Traceback (most recent call last):
+  File "E:/workspace/webCrawler/day04/01��ȡС˵.py", line 56, in <module>
+    getText(url)
+  File "E:/workspace/webCrawler/day04/01��ȡС˵.py", line 41, in getText
+    fileName = i.decode('utf-8')
+  File "G:\tools\python2.7.12\lib\encodings\utf_8.py", line 16, in decode
+    return codecs.utf_8_decode(input, errors, True)
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 1-8: ordinal not in range(128)
+```
+
+加入代码
+
+```
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
+```
+
+之后正常运行
+
+© 著作权归作者所有
