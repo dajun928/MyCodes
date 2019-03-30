@@ -1,0 +1,21 @@
+eclipse设置快捷键,提升代码速度,你也能行
+window-preference
+1,左上角输入content assist 在如果想让java代码提示速度加快,选择java-Editor-content assist 修改对应的响应时间和响应内容(包含 .abcdefghijklmnopqrstuvwxyz(, )
+	如果想让xml代码提示速度快,修改xml-Editor-content assist ,修改对应的响应时间和响应内容(包含 .abcdefghijklmnopqrstuvwxyz(<=:,  )
+2,修改常用快捷键
+
+	左上角输入keys
+	选中keys 在右面的
+	内容输入中输入		意思				默认			个人建议修改为
+	content assist		内容提示	 		alt+/			alt+j
+	undo				上一步				ctrl+z			alt+k
+	line start		将光标切换到行首		home			alt+i
+	line end		将光标切换到行尾		end				alt+o
+	add	cast	快速补全(适用于findViewbyId) 无				alt+c
+	copy line			复制行				ctrl+alt+down	alt+H
+	
+	以上为个人常用快捷键,如果修改后,用熟练了还是比较快的
+ 陈长远939064936
+        18571520995
+	
+		

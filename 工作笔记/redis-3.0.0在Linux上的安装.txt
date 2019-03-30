@@ -1,0 +1,26 @@
+redis-3.0.0在Linux上的安装
+1）安装redis编译的c环境，yum install gcc-c++
+2）将redis-3.0.0.tar.gz上传到Linux系统中
+3）解压到/usr/local下  tar -xvf redis-3.0.0.tar.gz -C /usr/local
+4）进入redis-3.0.0目录 使用make命令编译redis
+5）在redis-3.0.0目录中 使用make PREFIX=/usr/local/redis install命令安装redis到/usr/local/redis中
+6）启动redis 在bin下执行命令redis-server 
+8）如需远程连接redis，需配置redis端口6379在linux防火墙中开发
+/sbin/iptables -I INPUT -p tcp --dport 6379 -j ACCEPT
+/etc/rc.d/init.d/iptables save
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

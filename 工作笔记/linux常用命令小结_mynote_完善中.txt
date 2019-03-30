@@ -1,0 +1,115 @@
+linux常用命令小结:
+	1.目录切换命令
+		cd usr		切换到该目录下usr目录 	
+		cd ../		切换到上一层目录 	
+		cd /		切换到系统根目录 	
+		cd ~		切换到用户主目录 	
+		cd -		切换到上一个所在目录
+	2．文件夹的操作命令（增删改查）
+		增
+			mkdir 目录名称			
+			mkdir /itcast			在根目录下创建一个itcast的文件夹
+			mkdir /home/app/jdk  	根据指定路径创建一个jdk的文件夹
+			在/itcast目录下创建src和WebRoot两个文件夹
+				分别创建：mkdir /itcast/src
+						  mkdir /itcast/WebRoot
+				同时创建：mkdir /itcast/{src,WebRoot}
+		删
+			删除文件夹
+			rmdir   可以删除空目录
+			rm -r aaa   可以把aaa整个文件夹及其中的所有子节点全部删除
+			rm -rf aaa   强制删除aaa(没有询问直接删除)
+		改			
+			mv aaa angelababy         修改aaa文件夹名称为angelababy
+			
+		查
+			ll       查看该目录下的所有文件夹和文件的详细信息
+	3．文件的操作命令（增删改查）
+	
+	
+	
+		增
+			创建文件
+			touch  somefile.1   创建一个空文件
+			echo "i miss you,my baby" > somefile.2  利用重定向“>”的功能，将一条指令的输出结果写入到一个文件中，会覆盖原文件内容
+			echo "huangxiaoming ,gun dan" >> somefile.2     将一条指令的输出结果追加到一个文件中，不会覆盖原文件内容
+		删		
+			rm -rf 文件	删除文件
+			rmdir   可以删除空目录
+			rm -r aaa.txt    删除文件aaa.txt
+			rm -rf aaa.txt   强制删除aaa.txt(没有询问直接删除)
+		
+		改
+		用vi文本编辑器来编辑生成文件
+			******最基本用法
+			vi  somefile.4
+			1、首先会进入“一般模式”，此模式只接受各种快捷键，不能编辑文件内容
+			2、按i键，就会从一般模式进入编辑模式，此模式下，敲入的都是文件内容
+			3、编辑完成之后，按Esc键退出编辑模式，回到一般模式；
+			4、再按：，进入“底行命令模式”，输入wq命令，回车即可
+			查
+				wc -w README	查看一下README文件有多单词
+	4．压缩文件的操作命令
+		打包解包
+			命令：tar -zcvf 打包压缩后的文件名 要打包压缩的文件
+				其中：	z：调用gzip压缩命令进行压缩
+						c：打包文件
+						v：显示运行过程
+						f：指定文件名
+			示例：打包并压缩/test下的所有文件 压缩后的压缩包指定名称为xxx.tar.gz
+				tar -zcvf xxx.tar.gz aaa.txt bbb.txt ccc.txt
+				或：tar -zcvf xxx.tar.gz /test/*
+		(2)解压压缩包				
+			命令：tar [-xvf] 压缩文件
+				其中：x：代表解压
+				示例：将/test下的xxx.tar.gz解压到当前目录下
+				tar -xvf xxx.tar.gz
+			示例：将/test下的xxx.tar.gz解压到根目录/usr下
+				tar -xvf xxx.tar.gz -C /usr------C代表指定解压的位置
+
+	压缩解压
+	
+	5．其他命令		
+		pwd			查看当前所在的工作目录
+		拷贝文件
+		cp  somefile.1   /home/hadoop/  			把文件somefile.1拷贝到home目录下的hadoop文件夹里
+		剪切文件
+		mv test.txt src/Student.java     			将test.txt移动到src目录下，并修改文件名为Student.java
+		mv语法不仅可以对目录进行剪切操作，对文件和压缩包等都可执行剪切操作
+	6．Linux的权限命令
+			
+		****linux文件权限的描述格式解读
+		drwxr-xr-x      （也可以用二进制表示  111 101 101  -->  755）
+
+		d：标识节点类型（d：文件夹   -：文件  l:链接）
+		r：可读   w：可写    x：可执行 
+		第一组rwx：  表示这个文件的拥有者对它的权限：可读可写可执行
+		第二组r-x：  表示这个文件的所属组对它的权限：可读，不可写，可执行
+		第三组r-x：  表示这个文件的其他用户（相对于上面两类用户）对它的权限：可读，不可写，可执行
+
+
+		****修改文件权限
+		chmod g-rw haha.dat    表示将haha.dat对所属组的rw权限取消
+		chmod o-rw haha.dat 	表示将haha.dat对其他人的rw权限取消
+		chmod u+x haha.dat      表示将haha.dat对所属用户的权限增加x
+
+		也可以用数字的方式来修改权限
+		chmod 664 haha.dat   
+		就会修改成   rw-rw-r--
+
+		如果要将一个文件夹的所有内容权限统一修改，则可以-R参数
+		chmod -R 770 aaa/
+		chown angela:angela aaa/    <只有root能执行>
+
+		目录没有执行权限的时候普通用户不能进入
+		文件只有读写权限的时候普通用户是可以删除的(删除文件不是修改它,是操作父及目录),只要父级目录有执行和修改的权限
+		
+		文件的类型：
+d：代表目录
+-：代表文件
+l：代表链接（可以认为是window中的快捷方式）
+后面的9位分为3组，每3位置一组，分别代表属主的权限，与当前用户同组的	用户的权限，其他用户的权限
+r：代表权限是可读，r也可以用数字4表示
+w：代表权限是可写，w也可以用数字2表示
+x：代表权限是可执行，x也可以用数字1表示
+
